@@ -25,7 +25,7 @@ public class HelloworldController {
     System.out.println("HelloworldController#index");
 
     // システム・プロパティから取得
-    String systemPropertyMessage = System.getProperty("com.example.helloworld.message");
+    String systemPropertyMessage = System.getProperty("helloworld.message");
 
     // 表示するデータをセット
     ModelAndView mav = new ModelAndView();
