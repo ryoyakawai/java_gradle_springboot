@@ -1,8 +1,6 @@
 ## https://github.com/keeganwitt/docker-gradle/blob/bc176d51b9bb8ddb692660189db41706453c18be/jdk14/Dockerfile
 FROM adoptopenjdk:14-jdk-hotspot
 
-#CMD ["gradle"]
-
 ENV GRADLE_HOME /opt/gradle
 ENV WORKING_DIR /home/gradle
 
