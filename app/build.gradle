@@ -58,10 +58,17 @@ test {
 }
 
 // Web アプリケーションのグループIDとバージョン
-group   = "com.example.helloworld"
+group   = "helloworld"
 version = "0.0.1"
 
 // Java 8 を使用
 sourceCompatibility = '1.8'
 targetCompatibility = '1.8'
+
+//wrapper {
+//  gradleVersion = '6.6'
+//}
+
+//apply plugin: 'application'
+//mainClassName = 'helloworld'
 
