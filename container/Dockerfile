@@ -2,7 +2,9 @@ FROM openjdk:8
 
 ENV USER_GROUP springboot
 ENV WORKING_DIR /home/$USER_GROUP
+ENV ARTIFACT $WORKING_DIR/app/build/libs/helloworld-0.0.1.war
 
+### Update Package ###
 RUN apt-get update \
  && apt-get install --yes --no-install-recommends \
  bash unzip wget git \
@@ -20,6 +22,5 @@ WORKDIR $WORKING_DIR
 ### BUILD and RUN ###
 COPY ./app $WORKING_DIR/app
 RUN cd $WORKING_DIR/app && ./gradlew build
-ENV ARTIFACT $WORKING_DIR/app/build/libs/helloworld-0.0.1.war
 EXPOSE 8080
 ENTRYPOINT ["sh", "-c", "java -jar ${ARTIFACT}"]
