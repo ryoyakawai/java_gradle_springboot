@@ -2,25 +2,33 @@ version: '3.5'
 
 services:
   app:
+    container_name: SpringBoot_Helloworld
     build:
       context: ./app
       dockerfile: Dockerfile
-    container_name: SpringBoot_Helloworld
     env_file:
       - .env
+    environment:
+      SELF_PORT: ${APP_TARGET_PORT}
+      SELF_IP: 0.0.0.0
+      DATABASE_HOST: ${DATABASE_SERVER_HOST_NAME}
+      DATABASE_PORT: ${DATABASE_PORT}
+      DATABASE_NAME: ${DATABASE_NAME}
+      DATABASE_USER: ${DATABASE_USER}
+      DATABASE_PASSWD: ${DATABASE_USER_PASSWORD}
     ports:
-      - "${TARGET_PORT}:8080"
+      - "${APP_TARGET_PORT}:8080"
     restart: always
 
-#  database:
-#    container_name: SpringBoot_Helloworld_mysql_server
-#    build:
-#      dockerfile: ./mysql_server/Dockerfile_mysql
-#      context: ./
-#    environment:
-#      MYSQL_ROOT_PASSWORD: abcde12345root
-#      MYSQL_DATABASE: docker_kubernetes_example_type_a
-#      MYSQL_USER: type_a
-#      MYSQL_PASSWORD: abcde12345type_a
-#    restart: always
+  database:
+    container_name: ${DATABASE_SERVER_HOST_NAME}
+    build:
+      context: ./mysql_server
+      dockerfile: Dockerfile
+    environment:
+      MYSQL_DATABASE: ${DATABASE_SERVER_HOST_NAME}
+      MYSQL_ROOT_PASSWORD: ${DATABASE_ROOT_PASSWORD}
+      MYSQL_USER: ${DATABASE_USER}
+      MYSQL_PASSWORD: ${DATABASE_USER_PASSWORD}
+    restart: always
 
