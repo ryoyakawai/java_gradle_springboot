@@ -3,7 +3,7 @@ version: '3.5'
 services:
   app:
     build:
-      dockerfile: Dockerfile
+      dockerfile: ./container/Dockerfile
       context: .
     container_name: SpringBoot_Helloworld
     env_file:

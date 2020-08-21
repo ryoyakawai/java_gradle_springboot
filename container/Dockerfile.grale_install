@@ -50,29 +50,14 @@ RUN set -o errexit -o nounset \
  && echo "Testing Gradle installation" \
  && gradle --version
 
-#######
-
-EXPOSE 8080
+### BUILD and RUN ###
 
 COPY ./app $WORKING_DIR/app
-WORKDIR $WORKING_DIR/app
 
-RUN gradle clean
-RUN gradle --version && java --version
-RUN pwd && ls -al && gradle task
-RUN ls -al
-RUN echo $ARTIFACT_NAME
-RUN gradle build
+RUN cd $WORKING_DIR/app && gradle --version && java --version
+RUN cd $WORKING_DIR/app && gradle clean && gradle build
 
-########
-########
-
-WORKDIR $WORKING_DIR
-ENV ARTIFACT_NAME $WORKING_DIR/app/build/libs/helloworld-0.0.1.war
-RUN cd $WORKING_DIR && ls -al
-RUN ls -al $ARTIFACT_NAME
-RUN echo $ARTIFACT_NAME
-
+EXPOSE 8080
 ENTRYPOINT ["java", "-jar", "/home/gradle/app/build/libs/helloworld-0.0.1.war"]
 
 
