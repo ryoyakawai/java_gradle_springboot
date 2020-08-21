@@ -20,7 +20,9 @@ RUN set -o errexit -o nounset \
 WORKDIR $WORKING_DIR
 
 ### BUILD and RUN ###
-COPY ./app $WORKING_DIR/app
+COPY [ "build.gradle", "gradle", "gradlew", "gradlew.bat", "settings.gradle", "$WORKING_DIR/app/" ]
+COPY src $WORKING_DIR/app/src/
+COPY gradle $WORKING_DIR/app/gradle/
 RUN cd $WORKING_DIR/app && ./gradlew build
 EXPOSE 8080
 ENTRYPOINT ["sh", "-c", "java -jar ${ARTIFACT}"]

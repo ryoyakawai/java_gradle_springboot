@@ -3,11 +3,24 @@ version: '3.5'
 services:
   app:
     build:
-      dockerfile: ./container/Dockerfile
-      context: .
+      context: ./app
+      dockerfile: Dockerfile
     container_name: SpringBoot_Helloworld
     env_file:
       - .env
     ports:
       - "${TARGET_PORT}:8080"
     restart: always
+
+#  database:
+#    container_name: SpringBoot_Helloworld_mysql_server
+#    build:
+#      dockerfile: ./mysql_server/Dockerfile_mysql
+#      context: ./
+#    environment:
+#      MYSQL_ROOT_PASSWORD: abcde12345root
+#      MYSQL_DATABASE: docker_kubernetes_example_type_a
+#      MYSQL_USER: type_a
+#      MYSQL_PASSWORD: abcde12345type_a
+#    restart: always
+
