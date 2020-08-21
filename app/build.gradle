@@ -1,22 +1,22 @@
 buildscript {
-  repositories {
-    mavenCentral()
-  }
-  dependencies {
-    // Spring Boot Gradle Plugin を使用
-    classpath 'org.springframework.boot:spring-boot-gradle-plugin:2.2.0.RELEASE'
-  }
+    repositories {
+        mavenCentral()
+    }
+    dependencies {
+        // Spring Boot Gradle Plugin を使用
+        classpath 'org.springframework.boot:spring-boot-gradle-plugin:2.2.0.RELEASE'
+    }
 }
 
 plugins {
-  // Java プラグインを導入
-  id 'java'
-  // War プラグインを導入
-  id 'war'
-  // https://plugins.gradle.org/plugin/org.springframework.boot
-  id 'org.springframework.boot' version '2.2.0.RELEASE'
-  // https://plugins.gradle.org/plugin/io.spring.dependency-management
-  id 'io.spring.dependency-management' version '1.0.8.RELEASE'
+    // Java プラグインを導入
+    id 'java'
+    // War プラグインを導入
+    id 'war'
+    // https://plugins.gradle.org/plugin/org.springframework.boot
+    id 'org.springframework.boot' version '2.2.0.RELEASE'
+    // https://plugins.gradle.org/plugin/io.spring.dependency-management
+    id 'io.spring.dependency-management' version '1.0.8.RELEASE'
 }
 
 // Java バージョン
@@ -28,33 +28,41 @@ targetCompatibility = javaVersion
 apply plugin: 'war'
 
 repositories {
-  mavenCentral()
+    mavenCentral()
 }
 
 dependencies {
-  // Thymeleaf
-  implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
-  // Spring Web
-  implementation 'org.springframework.boot:spring-boot-starter-web'
-  // 組み込み Tomcat はデプロイの際には使わない
-  providedRuntime 'org.springframework.boot:spring-boot-starter-tomcat'
-  // Test
-  testImplementation('org.springframework.boot:spring-boot-starter-test') {
-    // JUnit 4 のサポートを除外する
-    exclude group: 'org.junit.vintage', module: 'junit-vintage-engine'
-  }
+    // jpa
+    compile('org.springframework.boot:spring-boot-starter-data-jpa')
+    // Thymeleaf
+    implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
+    // Spring Web
+    implementation 'org.springframework.boot:spring-boot-starter-web'
+
+    // mysql
+    runtime('org.springframework.boot:spring-boot-devtools')
+    runtime('mysql:mysql-connector-java')
+    compileOnly('org.projectlombok:lombok')
+
+    // 組み込み Tomcat はデプロイの際には使わない
+    providedRuntime 'org.springframework.boot:spring-boot-starter-tomcat'
+    // Test
+    testImplementation('org.springframework.boot:spring-boot-starter-test') {
+        // JUnit 4 のサポートを除外する
+        exclude group: 'org.junit.vintage', module: 'junit-vintage-engine'
+    }
 }
 
 test {
-  // JUnit 5 のサポートを有効にする
-  useJUnitPlatform()
+    // JUnit 5 のサポートを有効にする
+    useJUnitPlatform()
 
-  testLogging {
-    // テスト時の標準出力と標準エラー出力を表示する
-    showStandardStreams true
-    // イベントを出力する (TestLogEvent)
-    events 'started', 'skipped', 'passed', 'failed'
-  }
+    testLogging {
+        // テスト時の標準出力と標準エラー出力を表示する
+        showStandardStreams true
+        // イベントを出力する (TestLogEvent)
+        events 'started', 'skipped', 'passed', 'failed'
+    }
 }
 
 // Web アプリケーションのグループIDとバージョン
@@ -65,10 +73,4 @@ version = "0.0.1"
 sourceCompatibility = '1.8'
 targetCompatibility = '1.8'
 
-//wrapper {
-//  gradleVersion = '6.6'
-//}
-
-//apply plugin: 'application'
-//mainClassName = 'helloworld'
 

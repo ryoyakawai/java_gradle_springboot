@@ -4,6 +4,21 @@ ENV USER_GROUP springboot
 ENV WORKING_DIR /home/$USER_GROUP
 ENV ARTIFACT $WORKING_DIR/app/build/libs/helloworld-0.0.1.war
 
+## Set ARGs
+ARG APP_TARGET_PORT
+ARG MYSQL_SERVER_HOST_NAME
+ARG MYSQL_ROOT_PASSWORD
+ARG MYSQL_DATABASE
+ARG MYSQL_USER
+ARG MYSQL_PASSWORD
+
+ENV APP_TARGET_PORT $APP_TARGET_PORT
+ENV MYSQL_SERVER_HOST_NAME $MYSQL_SERVER_HOST_NAME
+ENV MYSQL_ROOT_PASSWORD $MYSQL_ROOT_PASSWORD
+ENV MYSQL_DATABASE $MYSQL_DATABASE
+ENV MYSQL_USER $MYSQL_USER
+ENV MYSQL_PASSWORD $MYSQL_PASSWORD
+
 ### Update Package ###
 RUN apt-get update \
  && apt-get install --yes --no-install-recommends \
@@ -24,5 +39,5 @@ COPY [ "build.gradle", "gradle", "gradlew", "gradlew.bat", "settings.gradle", "$
 COPY src $WORKING_DIR/app/src/
 COPY gradle $WORKING_DIR/app/gradle/
 RUN cd $WORKING_DIR/app && ./gradlew build
-EXPOSE 8080
+EXPOSE $APP_TARGET_PORT
 ENTRYPOINT ["sh", "-c", "java -jar ${ARTIFACT}"]

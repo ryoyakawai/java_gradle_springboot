@@ -9,15 +9,21 @@ services:
     env_file:
       - .env
     environment:
+      TZ: "Asia/Tokyo"
       SELF_PORT: ${APP_TARGET_PORT}
       SELF_IP: 0.0.0.0
-      DATABASE_HOST: ${DATABASE_SERVER_HOST_NAME}
-      DATABASE_PORT: ${DATABASE_PORT}
-      DATABASE_NAME: ${DATABASE_NAME}
-      DATABASE_USER: ${DATABASE_USER}
-      DATABASE_PASSWD: ${DATABASE_USER_PASSWORD}
+      MYSQL_SERVER_HOST_NAME: ${DATABASE_SERVER_HOST_NAME}
+      MYSQL_DATABASE: ${DATABASE_NAME}
+      MYSQL_PORT: ${DATABASE_PORT}
+      MYSQL_USER: ${DATABASE_USER_NAME}
+      MYSQL_PASSWORD: ${DATABASE_USER_PASSWORD}
     ports:
       - "${APP_TARGET_PORT}:8080"
+    tty: true
+    networks:
+      - springboot-network
+    depends_on:
+      - database
     restart: always
 
   database:
@@ -26,9 +32,20 @@ services:
       context: ./mysql_server
       dockerfile: Dockerfile
     environment:
-      MYSQL_DATABASE: ${DATABASE_SERVER_HOST_NAME}
+      TZ: "Asia/Tokyo"
+      MYSQL_SERVER_HOST_NAME: ${DATABASE_SERVER_HOST_NAME}
+      MYSQL_DATABASE: ${DATABASE_NAME}
+      MYSQL_PORT: ${DATABASE_PORT}
       MYSQL_ROOT_PASSWORD: ${DATABASE_ROOT_PASSWORD}
-      MYSQL_USER: ${DATABASE_USER}
+      MYSQL_USER: ${DATABASE_USER_NAME}
       MYSQL_PASSWORD: ${DATABASE_USER_PASSWORD}
+    ports:
+      - ${DATABASE_PORT}:${DATABASE_PORT}
+    tty: true
+    networks:
+      - springboot-network
     restart: always
 
+networks:
+  springboot-network:
+    driver: bridge
