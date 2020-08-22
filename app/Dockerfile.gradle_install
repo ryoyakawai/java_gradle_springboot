@@ -4,6 +4,21 @@ FROM adoptopenjdk:14-jdk-hotspot
 ENV GRADLE_HOME /opt/gradle
 ENV WORKING_DIR /home/gradle
 
+## Set ARGs and ENVs
+ARG APP_TARGET_PORT
+ARG MYSQL_SERVER_HOST_NAME
+ARG MYSQL_ROOT_PASSWORD
+ARG MYSQL_DATABASE
+ARG MYSQL_USER
+ARG MYSQL_PASSWORD
+
+ENV APP_TARGET_PORT $APP_TARGET_PORT
+ENV MYSQL_SERVER_HOST_NAME $MYSQL_SERVER_HOST_NAME
+ENV MYSQL_ROOT_PASSWORD $MYSQL_ROOT_PASSWORD
+ENV MYSQL_DATABASE $MYSQL_DATABASE
+ENV MYSQL_USER $MYSQL_USER
+ENV MYSQL_PASSWORD $MYSQL_PASSWORD
+
 RUN set -o errexit -o nounset \
  && echo "Adding gradle user and group" \
  && groupadd --system --gid 1000 gradle \
@@ -50,6 +65,35 @@ RUN set -o errexit -o nounset \
  && echo "Testing Gradle installation" \
  && gradle --version
 
+
+ENV USER_GROUP springboot
+ENV WORKING_DIR /home/$USER_GROUP
+ENV ARTIFACT $WORKING_DIR/app/build/libs/helloworld-0.0.1.war
+
+## Set ARGs
+ARG APP_TARGET_PORT
+ARG MYSQL_SERVER_HOST_NAME
+ARG MYSQL_ROOT_PASSWORD
+ARG MYSQL_DATABASE
+ARG MYSQL_USER
+ARG MYSQL_PASSWORD
+
+ENV APP_TARGET_PORT $APP_TARGET_PORT
+ENV MYSQL_SERVER_HOST_NAME $MYSQL_SERVER_HOST_NAME
+ENV MYSQL_ROOT_PASSWORD $MYSQL_ROOT_PASSWORD
+ENV MYSQL_DATABASE $MYSQL_DATABASE
+ENV MYSQL_USER $MYSQL_USER
+ENV MYSQL_PASSWORD $MYSQL_PASSWORD
+
+### Add GROUP and USER ###
+RUN set -o errexit -o nounset \
+ && echo "Adding app user and group" \
+ && groupadd --system --gid 1001 $USER_GROUP \
+ && useradd --system --gid $USER_GROUP --uid 1001 --shell /bin/bash --create-home $USER_GROUP \
+ && mkdir $WORKING_DIR/.gradle \
+ && chown --recursive $USER_GROUP:$USER_GROUP $WORKING_DIR
+WORKDIR $WORKING_DIR
+
 ### BUILD and RUN ###
 COPY [ "build.gradle", "gradle", "gradlew", "gradlew.bat", "settings.gradle", "$WORKING_DIR/app/" ]
 COPY src $WORKING_DIR/app/src/
@@ -57,8 +101,8 @@ COPY gradle $WORKING_DIR/app/gradle/
 
 RUN cd $WORKING_DIR/app && gradle --version && java --version
 RUN cd $WORKING_DIR/app && gradle clean && gradle build
+EXPOSE $APP_TARGET_PORT
 
-EXPOSE 8080
-ENTRYPOINT ["java", "-jar", "/home/gradle/app/build/libs/helloworld-0.0.1.war"]
+ENTRYPOINT ["sh", "-c", "java -jar ${ARTIFACT}"]
 
 

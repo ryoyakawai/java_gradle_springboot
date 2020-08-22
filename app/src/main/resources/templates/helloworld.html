@@ -1,13 +1,27 @@
 <!DOCTYPE html>
 <html lang="ja" xmlns:th="http://www.thymeleaf.org">
-<head>
-  <meta charset="UTF-8">
-  <title>Hello, world.</title>
-</head>
-<body>
-<h1>Hello, world.</h1>
-<div th:text="'System Property: ' + ${systemPropertyMessage}"></div>
-<div th:text="'application.yml: ' + ${applicationYamlMessage}"></div>
-<div><img src="./assets/sample-300x300.jpg"></div>
-</body>
+  <head>
+    <meta charset="UTF-8">
+    <title>Hello, world.</title>
+  </head>
+  <body>
+    <h1>Hello, world.</h1>
+    <div th:text="'System Property: ' + ${systemPropertyMessage}"></div>
+    <div th:text="'application.yml: ' + ${applicationYamlMessage}"></div>
+    <div><img src="./assets/sample-300x300.jpg"></div>
+
+    <table>
+      <tr>
+        <th>ID</th>
+        <th>Message</th>
+      </tr>
+      <td>
+        <tr th:each="item: ${messageSample}">
+          <td th:text="${item.id}"></td>
+          <td th:text="${item.message}"></td>
+        </tr>
+      </td>
+    </table>
+
+  </body>
 </html>

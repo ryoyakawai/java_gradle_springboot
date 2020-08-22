@@ -1,5 +1,7 @@
 package helloworld;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -34,12 +36,17 @@ public class HelloworldController {
     // システム・プロパティから取得
     String systemPropertyMessage = System.getProperty("helloworld.message");
 
-    Iterable<Messagesample> res = messagesampleRepository.findAll();
+    List<Messagesample> message_sample = messagesampleRepository.findAll();
+    for(Messagesample item : message_sample ) {
+      System.out.printf("ID=[%s] Message=[%s]", item.getId(), item.getMessage());
+      System.out.println();
+    }
 
     // 表示するデータをセット
     ModelAndView mav = new ModelAndView();
     mav.addObject("systemPropertyMessage", systemPropertyMessage);
     mav.addObject("applicationYamlMessage", applicationYamlMessage);
+    mav.addObject("messageSample", message_sample);
     mav.setViewName("helloworld"); // ビュー名。Thymeleaf テンプレートファイルを指定
 
     return mav;
