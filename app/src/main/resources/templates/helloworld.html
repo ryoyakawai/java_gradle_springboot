@@ -10,18 +10,35 @@
     <div th:text="'application.yml: ' + ${applicationYamlMessage}"></div>
     <div><img src="./assets/sample-300x300.jpg"></div>
 
-    <table>
-      <tr>
-        <th>ID</th>
-        <th>Message</th>
-      </tr>
-      <td>
-        <tr th:each="item: ${messageSample}">
-          <td th:text="${item.id}"></td>
-          <td th:text="${item.message}"></td>
+    <form action="/db/add" method="post">
+      <div>
+        <div>
+          Message : <input type="text" name="message" size="50">
+        </div>
+        <div>
+          <input type="submit" value="Submit"><input type="reset" value="Reset">
+        </div>
+      </div>
+    </form>
+    <br><br>
+
+    <form action="/db/removemessages" method="post">
+      <table>
+        <tr>
+          <th></th>
+          <th>ID</th>
+          <th>Message</th>
         </tr>
-      </td>
-    </table>
+        <td>
+          <tr th:each="item: ${messageSample}">
+            <td><input type="checkbox" th:id="'message_checkbox_' + ${item.id}" name="message_checkbox" th:value="${item.id}"></td>
+            <td th:text="${item.id}"></td>
+            <td th:text="${item.message}"></td>
+          </tr>
+        </td>
+      </table>
+      <input type="submit" value="Remove">
+    </form>
 
   </body>
 </html>

@@ -1,6 +1,7 @@
 package helloworld;
 
 import java.util.List;
+import java.util.Collections;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -12,9 +13,11 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller
 public class HelloworldController {
+
   @Autowired
   private MessagesampleRepository messagesampleRepository;
 
@@ -36,10 +39,10 @@ public class HelloworldController {
     // システム・プロパティから取得
     String systemPropertyMessage = System.getProperty("helloworld.message");
 
+    // DBの値を全取得する
     List<Messagesample> message_sample = messagesampleRepository.findAll();
     for(Messagesample item : message_sample ) {
-      System.out.printf("ID=[%s] Message=[%s]", item.getId(), item.getMessage());
-      System.out.println();
+      System.out.printf("[DISP] ID=[%s] Message=[%s]\n", item.getId(), item.getMessage());
     }
 
     // 表示するデータをセット
@@ -62,16 +65,41 @@ public class HelloworldController {
   }
 
   @PostMapping(path="/db/add")
-  public @ResponseBody String addNewUser (@RequestParam String message) {
+  //public String addNewUser(@RequestParam String message) {
+  public String addNewUser (@RequestParam String message) {
+    //public @ResponseBody String addNewUser (@RequestParam String message) {
+    List<Messagesample> message_sample = messagesampleRepository.findAll();
+    int msg_szie_new = message_sample.size() + 1;
+
     Messagesample n_ms = new Messagesample();
-    n_ms.setMessage("hogehoge");
+    String message_to_save =  message + " :: " + msg_szie_new;
+    n_ms.setMessage(message_to_save);
     messagesampleRepository.save(n_ms);
-    return "Saved";
+
+    System.out.printf("[SAVE] Saved!! message=[%s]\n", message_to_save);
+
+    //return "Saved";
+    return "redirect:/";
   }
 
+  @PostMapping(path="/db/removemessages")
+  public String removeMessage(@RequestParam("message_checkbox") List<String> message_checkbox) {
+    if (message_checkbox != null) {
+      for( String idx: message_checkbox ) {
+        int int_idx = Integer.parseInt(idx);
+        messagesampleRepository.deleteById(new Long(int_idx));
+        System.out.printf("[REMOVE] idx=[%s]\n", int_idx);
+      }
+    }
+    return "redirect:/";
+  }
+
+  /**
+   * DBのデータを全取得してJSONでレスポンスを返す
+   */
   @GetMapping(path="/db/all")
   public @ResponseBody Iterable<Messagesample> getAllMessages() {
-    // This returns a JSON or XML with the users
+    // This returns a JSON
     return messagesampleRepository.findAll();
   }
 
