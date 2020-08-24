@@ -6,17 +6,20 @@ services:
     build:
       context: ./app
       dockerfile: Dockerfile
+      args:
+        - SELF_PORT=${APP_TARGET_PORT}
+        - SELF_IP=0.0.0.0
+        - APP_TARGET_PORT=${APP_TARGET_PORT}
+        - SPRING_SYSTEM_PROPERTY_OPTIONS=${SYSTEM_PROPERTY_OPTIONS}
+        - MYSQL_SERVER_HOST_NAME=${DATABASE_SERVER_HOST_NAME}
+        - MYSQL_DATABASE=${DATABASE_NAME}
+        - MYSQL_PORT=${DATABASE_PORT}
+        - MYSQL_USER=${DATABASE_USER_NAME}
+        - MYSQL_PASSWORD=${DATABASE_USER_PASSWORD}
     env_file:
       - .env
     environment:
       TZ: "Asia/Tokyo"
-      SELF_PORT: ${APP_TARGET_PORT}
-      SELF_IP: 0.0.0.0
-      MYSQL_SERVER_HOST_NAME: ${DATABASE_SERVER_HOST_NAME}
-      MYSQL_DATABASE: ${DATABASE_NAME}
-      MYSQL_PORT: ${DATABASE_PORT}
-      MYSQL_USER: ${DATABASE_USER_NAME}
-      MYSQL_PASSWORD: ${DATABASE_USER_PASSWORD}
     ports:
       - "${APP_TARGET_PORT}:8080"
     tty: true
@@ -31,14 +34,16 @@ services:
     build:
       context: ./mysql_server
       dockerfile: Dockerfile
+      args:
+        - SELF_PORT=${APP_TARGET_PORT}
+        - MYSQL_SERVER_HOST_NAME=${DATABASE_SERVER_HOST_NAME}
+        - MYSQL_DATABASE=${DATABASE_NAME}
+        - MYSQL_PORT=${DATABASE_PORT}
+        - MYSQL_ROOT_PASSWORD=${DATABASE_ROOT_PASSWORD}
+        - MYSQL_USER=${DATABASE_USER_NAME}
+        - MYSQL_PASSWORD=${DATABASE_USER_PASSWORD}
     environment:
       TZ: "Asia/Tokyo"
-      MYSQL_SERVER_HOST_NAME: ${DATABASE_SERVER_HOST_NAME}
-      MYSQL_DATABASE: ${DATABASE_NAME}
-      MYSQL_PORT: ${DATABASE_PORT}
-      MYSQL_ROOT_PASSWORD: ${DATABASE_ROOT_PASSWORD}
-      MYSQL_USER: ${DATABASE_USER_NAME}
-      MYSQL_PASSWORD: ${DATABASE_USER_PASSWORD}
     ports:
       - ${DATABASE_PORT}:${DATABASE_PORT}
     tty: true

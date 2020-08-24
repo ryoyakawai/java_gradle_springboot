@@ -22,18 +22,21 @@
     </form>
     <br><br>
 
+    <div th:text="'TOTAL: ' + ${messageTotalCount} + ' Records'"></div>
     <form action="/db/removemessages" method="post">
       <table>
         <tr>
           <th></th>
           <th>ID</th>
           <th>Message</th>
+          <th>Date Created</th>
         </tr>
         <td>
           <tr th:each="item: ${messageSample}">
-            <td><input type="checkbox" th:id="'message_checkbox_' + ${item.id}" name="message_checkbox" th:value="${item.id}"></td>
-            <td th:text="${item.id}"></td>
+            <td><input type="checkbox" th:id="'message_checkbox_' + ${item.message_id}" name="message_checkbox" th:value="${item.message_id}"></td>
+            <td th:text="${item.message_id}"></td>
             <td th:text="${item.message}"></td>
+            <td th:text="${item.created_date}"></td>
           </tr>
         </td>
       </table>

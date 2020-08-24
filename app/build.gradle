@@ -33,16 +33,16 @@ repositories {
 
 dependencies {
     // jpa
-    compile('org.springframework.boot:spring-boot-starter-data-jpa')
+    implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
     // Thymeleaf
     implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
     // Spring Web
     implementation 'org.springframework.boot:spring-boot-starter-web'
 
     // mysql
-    runtime('org.springframework.boot:spring-boot-devtools')
-    runtime('mysql:mysql-connector-java')
-    compileOnly('org.projectlombok:lombok')
+    compileOnly 'org.springframework.boot:spring-boot-devtools'
+    runtimeOnly 'mysql:mysql-connector-java'
+    compileOnly 'org.projectlombok:lombok'
 
     // 組み込み Tomcat はデプロイの際には使わない
     providedRuntime 'org.springframework.boot:spring-boot-starter-tomcat'
@@ -51,6 +51,10 @@ dependencies {
         // JUnit 4 のサポートを除外する
         exclude group: 'org.junit.vintage', module: 'junit-vintage-engine'
     }
+}
+
+bootRun {
+    bootRun.systemProperty 'helloworld.greeting', "Hello World from build.gradle"
 }
 
 test {
