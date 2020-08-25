@@ -27,6 +27,11 @@ targetCompatibility = javaVersion
 // warファイルを出力する
 apply plugin: 'war'
 
+apply plugin: 'java'
+compileJava {
+    options.compilerArgs << '-Xlint:deprecation'
+}
+
 repositories {
     mavenCentral()
 }

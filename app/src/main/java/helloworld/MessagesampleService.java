@@ -26,4 +26,14 @@ public class MessagesampleService {
     int affectedRow = messagesampleDaoImpl.insertOneDao( message );
     return affectedRow;
   }
+
+  public int updateOne( Long message_id, String message) {
+    int affectedRow = messagesampleDaoImpl.updateOneDao( message_id, message );
+    return affectedRow;
+  }
+
+  public int deleteOne( Long message_id) {
+    int affectedRow = messagesampleDaoImpl.deleteOneDao( message_id );
+    return affectedRow;
+  }
 }
