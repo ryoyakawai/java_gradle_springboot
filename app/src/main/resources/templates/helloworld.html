@@ -34,6 +34,7 @@
           <th></th>
           <th>ID</th>
           <th>Message</th>
+          <th>Date Updated</th>
           <th>Date Created</th>
         </tr>
         <td>
@@ -42,6 +43,7 @@
             <td><input type="checkbox" th:id="'message_checkbox_' + ${item.message_id}" name="message_checkbox" th:value="${item.message_id}"></td>
             <td th:text="${item.message_id}"></td>
             <td th:text="${item.message}"></td>
+            <td th:text="${item.updated_date}"></td>
             <td th:text="${item.created_date}"></td>
           </tr>
         </td>
