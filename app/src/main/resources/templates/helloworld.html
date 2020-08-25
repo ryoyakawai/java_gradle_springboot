@@ -15,7 +15,7 @@
       <input type="hidden" name="message_id" th:value="${messageId}">
       <div>
         <div>
-          <div th:if="${messageInputMode == 'UPDATE'}"><a href="/">[Cancel Edit]</a></div>
+          <span th:if="${messageInputMode == 'UPDATE'}"><a href="/">[Cancel Edit]</a></span><br>
           <span th:text="'Mode: ' + ${messageModeText}"></span><br>
           <span>Message : <input type="text" name="message" size="50" th:value="${messageTextValue}"></span>
         </div>
