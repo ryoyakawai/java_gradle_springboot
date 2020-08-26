@@ -113,10 +113,10 @@ public class HelloworldController {
   /**
    * エラーページを表示するテスト用メソッド。
    */
-  @GetMapping("/exception/")
+  @GetMapping("/exception")
   public void exception() {
     System.out.println("HelloworldController#exception");
-    throw new RuntimeException("This is a sample exception.");
+    throw new RuntimeException("exception of /exception");
   }
 
   @PostMapping(path="/db/add")
