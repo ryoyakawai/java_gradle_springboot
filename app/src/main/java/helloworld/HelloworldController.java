@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
@@ -122,6 +123,11 @@ public class HelloworldController {
   public String addNewMessage (@RequestParam String messageinputmode,
                                @RequestParam Optional<String> message_id,
                                @RequestParam String message) {
+
+    if(message == "") {
+      message = "😭";
+    }
+
     int affectedRow = 0;
     switch(messageinputmode) {
     case "UPDATE":
