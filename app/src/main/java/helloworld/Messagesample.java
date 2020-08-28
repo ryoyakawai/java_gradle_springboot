@@ -30,6 +30,9 @@ public class Messagesample {
   public Long getMessage_id() {
     return message_id;
   }
+  public void setMessage_id(Long message_id) {
+    this.message_id = message_id;
+  }
 
   public String getMessage() {
     return message;

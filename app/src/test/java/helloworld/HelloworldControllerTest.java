@@ -1,6 +1,8 @@
 package helloworld;
 
 import javax.persistence.EntityManagerFactory;
+import javax.ws.rs.*;
+import javax.ws.rs.core.*;
 
 import static org.mockito.Mockito.*;
 import static org.hamcrest.Matchers.*;
@@ -38,7 +40,6 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.util.LinkedMultiValueMap;
 
-
 import helloworld.MessagesampleService;
 import helloworld.MessagesampleDaoImpl;
 
@@ -70,6 +71,47 @@ class HelloworldErrorControllerTest {
   }
 
   @Test
+  public void post_test_db_add_insert_success() throws Exception {
+    String message = "";
+    int ret_updat_one = 1;
+    String messageinputmode = "INSERT";
+    when(mMessagesampleService.updateOne(null, message)).thenReturn(ret_updat_one);
+    this.mockMvc.perform(post("/db/add")
+                         .param("messageinputmode", messageinputmode)
+                         .param("message", message))
+      .andExpect(status().is(302))
+      .andExpect(redirectedUrl("/"));
+  }
+
+  @Test
+  public void post_test_db_add_update_fail() throws Exception {
+    assertThatThrownBy(() -> {
+        String message = "";
+        int ret_updat_one = 0;
+        String messageinputmode = "UPDATE";
+        when(mMessagesampleService.updateOne(null, message)).thenReturn(ret_updat_one);
+        this.mockMvc.perform(post("/db/add")
+                             .param("messageinputmode", messageinputmode)
+                             .param("message", message));
+      }).hasCause(new RuntimeException("[exception] msg=[no message_id specified]"));
+  }
+
+  @Test
+  public void post_test_db_add_update_success() throws Exception {
+    String message = "";
+    int ret_updat_one = 1;
+    Long message_id = Long.valueOf((int) 0);
+    String messageinputmode = "UPDATE";
+    when(mMessagesampleService.updateOne(message_id, message)).thenReturn(ret_updat_one);
+    this.mockMvc.perform(post("/db/add")
+                         .param("messageinputmode", messageinputmode)
+                         .param("message_id", Long.toString( message_id ))
+                         .param("message", message))
+      .andExpect(status().is(302))
+      .andExpect(redirectedUrl("/"));
+  }
+
+  @Test
   public void post_test_removemessages_fail() throws Exception {
     Long message_id = Long.valueOf((int) 1);
     int ret_delete_one = 1;
@@ -90,6 +132,38 @@ class HelloworldErrorControllerTest {
     this.mockMvc.perform(post("/db/removemessages").param("message_checkbox", "1"))
       .andExpect(status().is(302))
       .andExpect(redirectedUrl("/"));
+  }
+
+  @Test
+  public void post_test_api_v1_db_all_success() throws Exception
+  {
+    Long message_id = 1L;
+    String message = "AAAA";
+
+    Messagesample mMessagesample = new Messagesample();
+    mMessagesample.setMessage_id(message_id);
+    mMessagesample.setMessage(message);
+    mMessagesample.setCreated_date();
+    mMessagesample.setUpdated_date();
+    List<Messagesample> expected_object = Arrays.asList(mMessagesample);
+
+    when(mMessagesampleRepository.findAll()).thenReturn(expected_object);
+    this.mockMvc.perform(get("/api/v1/db/all"))
+      .andExpect(status().is(200))
+      .andExpect(content().string(containsString("[{\"message_id\":" + Long.toString(message_id) + ",\"message\":\"" + message + "\"")));
+  }
+
+  @Test
+  public void post_test_api_v1_db_add_success() throws Exception
+  {
+    String message = "AAAA";
+    int ret_insert_one = (int) 1;
+
+    when(mMessagesampleService.insertOne(message)).thenReturn(ret_insert_one);
+
+    this.mockMvc.perform(post("/api/v1/db/add").param("message", message))
+      .andExpect(status().is(200))
+      .andExpect(content().string(containsString("Saved : " + String.valueOf(ret_insert_one))));
   }
 
 }

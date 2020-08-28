@@ -135,6 +135,8 @@ public class HelloworldController {
         String str_message_id = message_id.get();
         Long long_message_id = Long.valueOf( str_message_id );
         affectedRow = messagesampleService.updateOne( long_message_id, message );
+      } else {
+        throw new RuntimeException("[exception] msg=[no message_id specified]");
       }
       break;
     case "INSERT":
