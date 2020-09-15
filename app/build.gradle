@@ -45,21 +45,20 @@ repositories {
 }
 
 // jacoco
-def jacocoVersion = '0.8.1'
+def jacocoVersion = '0.8.5'
 // テストカバレッジにJacocoを使用する
 apply plugin: 'jacoco'
 jacoco {
     toolVersion = jacocoVersion
 }
-
 jacocoTestReport {
     reports {
         xml.enabled = true
         html.enabled = true
     }
 }
-
 build.dependsOn jacocoTestReport
+
 
 dependencies {
     // jpa
