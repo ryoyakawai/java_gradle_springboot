@@ -44,6 +44,23 @@ repositories {
     mavenCentral()
 }
 
+// jacoco
+def jacocoVersion = '0.8.1'
+// テストカバレッジにJacocoを使用する
+apply plugin: 'jacoco'
+jacoco {
+    toolVersion = jacocoVersion
+}
+
+jacocoTestReport {
+    reports {
+        xml.enabled = true
+        html.enabled = true
+    }
+}
+
+build.dependsOn jacocoTestReport
+
 dependencies {
     // jpa
     implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
