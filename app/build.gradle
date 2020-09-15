@@ -71,6 +71,19 @@ jacocoTestReport {
 }
 build.dependsOn jacocoTestReport
 
+//// test
+task jacoco(type: JacocoReport, dependsOn: "testDebug") {
+    reports {
+        xml.enabled = false
+        html.enabled = true
+        html {
+            destination "${project.rootDir}/build/reports/jacoco/${project.name}"
+        }
+    }
+    sourceDirectories = files('src/main/java')
+    executionData = files('build/jacoco/testDebug.exec')
+}
+//// test
 
 dependencies {
     // jpa
