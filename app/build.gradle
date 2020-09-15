@@ -9,6 +9,7 @@ buildscript {
 }
 
 plugins {
+    id 'base'
     // Java プラグインを導入
     id 'java'
     // War プラグインを導入
