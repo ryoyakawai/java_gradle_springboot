@@ -74,7 +74,7 @@ public class HelloworldController {
     // GET parameterのハンドリング
     String str_message_id = "";
     String message_text_value = "";
-    if(message_id.isPresent()) {
+    if (message_id.isPresent()) {
       str_message_id = message_id.get();
     }
     if (str_message_id != "") {
