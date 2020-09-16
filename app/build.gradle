@@ -4,20 +4,20 @@ buildscript {
     }
     dependencies {
         // Spring Boot Gradle Plugin を使用
-        classpath 'org.springframework.boot:spring-boot-gradle-plugin:2.2.0.RELEASE'
+        classpath "org.springframework.boot:spring-boot-gradle-plugin:2.2.0.RELEASE"
     }
 }
 
 plugins {
-    // https://plugins.gradle.org/plugin/org.springframework.boot
-    // https://plugins.gradle.org/plugin/io.spring.dependency-management
-    id 'base'
-    id 'java'
-    id 'war'
-    id 'org.springframework.boot' version '2.2.0.RELEASE'
-    id 'io.spring.dependency-management' version '1.0.8.RELEASE'
-    id 'jacoco'
-    id 'checkstyle'
+  // https://plugins.gradle.org/plugin/org.springframework.boot
+  // https://plugins.gradle.org/plugin/io.spring.dependency-management
+  id "base"
+  id "java"
+  id "war"
+  id "org.springframework.boot" version "2.2.0.RELEASE"
+  id "io.spring.dependency-management" version "1.0.8.RELEASE"
+  id "jacoco"
+  id "checkstyle"
 }
 
 // Java バージョン
@@ -26,11 +26,11 @@ sourceCompatibility = javaVersion
 targetCompatibility = javaVersion
 
 // warファイルを出力する
-apply plugin: 'war'
+apply plugin: "war"
 
-apply plugin: 'java'
+apply plugin: "java"
 compileJava {
-    options.compilerArgs << '-Xlint:deprecation'
+    options.compilerArgs << "-Xlint:deprecation"
 }
 
 
@@ -46,9 +46,11 @@ repositories {
 }
 
 // jacoco
-def jacocoVersion = '0.8.5'
+def jacocoVersion = "0.8.5"
+
 // テストカバレッジにJacocoを使用する
-//apply plugin: 'jacoco'
+//apply plugin: "jacoco"
+
 jacoco {
   toolVersion = jacocoVersion
 }
@@ -84,38 +86,37 @@ checkstyle {
 
 dependencies {
     // jpa
-    implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+    implementation "org.springframework.boot:spring-boot-starter-data-jpa"
     // Thymeleaf
-    implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
+    implementation "org.springframework.boot:spring-boot-starter-thymeleaf"
     // Spring Web
-    implementation 'org.springframework.boot:spring-boot-starter-web'
+    implementation "org.springframework.boot:spring-boot-starter-web"
 
     // mysql
-    compileOnly 'org.springframework.boot:spring-boot-devtools'
-    runtimeOnly 'mysql:mysql-connector-java'
-    compileOnly 'org.projectlombok:lombok'
+    compileOnly "org.springframework.boot:spring-boot-devtools"
+    runtimeOnly "mysql:mysql-connector-java"
+    compileOnly "org.projectlombok:lombok"
 
     // 組み込み Tomcat はデプロイの際には使わない
-    providedRuntime 'org.springframework.boot:spring-boot-starter-tomcat'
+    providedRuntime "org.springframework.boot:spring-boot-starter-tomcat"
     // Test
-    testImplementation('org.springframework.boot:spring-boot-starter-test') {
+    testImplementation("org.springframework.boot:spring-boot-starter-test") {
         // JUnit 4 のサポートを除外する
-        exclude group: 'org.junit.vintage', module: 'junit-vintage-engine'
+        exclude group: "org.junit.vintage", module: "junit-vintage-engine"
     }
 
-    compileOnly 'org.projectlombok:lombok:1.18.12'
-    annotationProcessor 'org.projectlombok:lombok:1.18.12'
+    compileOnly "org.projectlombok:lombok:1.18.12"
+    annotationProcessor "org.projectlombok:lombok:1.18.12"
 
-    testCompileOnly 'org.projectlombok:lombok:1.18.12'
-    testAnnotationProcessor 'org.projectlombok:lombok:1.18.12'
+    testCompileOnly "org.projectlombok:lombok:1.18.12"
+    testAnnotationProcessor "org.projectlombok:lombok:1.18.12"
 
     // https://mvnrepository.com/artifact/javax.ws.rs/javax.ws.rs-api
-    compile group: 'javax.ws.rs', name: 'javax.ws.rs-api', version: '2.0'
-
+    compile group: "javax.ws.rs", name: "javax.ws.rs-api", version: "2.0"
 }
 
 bootRun {
-    bootRun.systemProperty 'helloworld.greeting', "Hello World from build.gradle"
+    bootRun.systemProperty "helloworld.greeting", "Hello World from build.gradle"
 }
 
 test {
@@ -126,7 +127,7 @@ test {
         // テスト時の標準出力と標準エラー出力を表示する
         showStandardStreams true
         // イベントを出力する (TestLogEvent)
-        events 'started', 'skipped', 'passed', 'failed'
+        events "started", "skipped", "passed", "failed"
     }
 }
 
@@ -135,7 +136,7 @@ group   = "helloworld"
 version = "0.0.1"
 
 // Java 8 を使用
-sourceCompatibility = '1.8'
-targetCompatibility = '1.8'
+sourceCompatibility = "1.8"
+targetCompatibility = "1.8"
 
 
