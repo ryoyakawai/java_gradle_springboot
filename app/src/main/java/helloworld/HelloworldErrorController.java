@@ -1,5 +1,7 @@
 package helloworld;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.web.servlet.error.ErrorController;
 import org.springframework.http.HttpStatus;
@@ -7,24 +9,22 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
-import javax.servlet.http.HttpServletRequest;
-
 /**
- * Web アプリケーション全体のエラーコントローラー。
- * ErrorController インターフェースの実装クラス。
+ * Web アプリケーション全体のエラーコントローラー.
+ * ErrorController インターフェースの実装クラス.
  */
 @Controller
 @RequestMapping("${server.error.path:${error.path:/error}}") // エラーページへのマッピング
 public class HelloworldErrorController implements ErrorController {
 
   /**
-   * エラーページのパス。
+   * エラーページのパス.
    */
   @Value("${server.error.path:${error.path:/error}}")
   private String errorPath;
 
   /**
-   * エラーページのパスを返す。
+   * エラーページのパスを返す.
    *
    * @return エラーページのパス
    */
@@ -34,7 +34,7 @@ public class HelloworldErrorController implements ErrorController {
   }
 
   /**
-   * レスポンス用の ModelAndView オブジェクトを返す。
+   * レスポンス用の ModelAndView オブジェクトを返す.
    *
    * @param req リクエスト情報
    * @param mav レスポンス情報

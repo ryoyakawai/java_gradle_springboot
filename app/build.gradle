@@ -9,15 +9,15 @@ buildscript {
 }
 
 plugins {
-    id 'base'
-    // Java プラグインを導入
-    id 'java'
-    // War プラグインを導入
-    id 'war'
     // https://plugins.gradle.org/plugin/org.springframework.boot
-    id 'org.springframework.boot' version '2.2.0.RELEASE'
     // https://plugins.gradle.org/plugin/io.spring.dependency-management
+    id 'base'
+    id 'java'
+    id 'war'
+    id 'org.springframework.boot' version '2.2.0.RELEASE'
     id 'io.spring.dependency-management' version '1.0.8.RELEASE'
+    id 'jacoco'
+    id 'checkstyle'
 }
 
 // Java バージョン
@@ -48,13 +48,12 @@ repositories {
 // jacoco
 def jacocoVersion = '0.8.5'
 // テストカバレッジにJacocoを使用する
-apply plugin: 'jacoco'
+//apply plugin: 'jacoco'
 jacoco {
-    toolVersion = jacocoVersion
+  toolVersion = jacocoVersion
 }
 jacocoTestReport {
   // https://github.com/gradle/gradle/issues/5898
-
   sourceSets sourceSets.main
 
   // Gather execution data from all subprojects
@@ -68,9 +67,20 @@ jacocoTestReport {
   reports {
     xml.enabled = true
     html.enabled = true
+    html.destination file("${buildDir}/jacocoHtml")
   }
+
 }
 build.dependsOn jacocoTestReport
+
+
+// Checkstyle 設定
+def checkstyleVersion = "8.12"
+checkstyle {
+    toolVersion = checkstyleVersion
+    ignoreFailures = true
+}
+
 
 dependencies {
     // jpa
