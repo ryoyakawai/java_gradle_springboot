@@ -33,7 +33,6 @@ compileJava {
     options.compilerArgs << "-Xlint:deprecation"
 }
 
-
 dependencyManagement {
     imports {
         //BOMのインポート
@@ -75,14 +74,13 @@ jacocoTestReport {
 }
 build.dependsOn jacocoTestReport
 
-
 // Checkstyle 設定
 def checkstyleVersion = "8.12"
 checkstyle {
     toolVersion = checkstyleVersion
     ignoreFailures = true
+    checkstyleTest.enabled = false
 }
-
 
 dependencies {
     // jpa
