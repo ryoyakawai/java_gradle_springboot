@@ -89,7 +89,7 @@ public class HelloworldController {
       message_input_mode = "UPDATE";
       display_mode_text = "EDIT ID=[" + str_message_id + "]";
       System.out.printf("[MODE] EDIT ID=[%s] MESSAGE=[%s]\n", str_message_id, message_text_value);
-      //}
+    }
 
     // システム・プロパティから取得
     String systemPropertyMessage = System.getProperty("helloworld.greeting");
