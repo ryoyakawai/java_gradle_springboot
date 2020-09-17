@@ -74,10 +74,10 @@ public class HelloworldController {
     // GET parameterのハンドリング
     String str_message_id = "";
     String message_text_value = "";
-    if(message_id.isPresent()) {
+    if (message_id.isPresent()) {
       str_message_id = message_id.get();
     }
-    if(str_message_id != "") {
+    if (str_message_id != "") {
       Long long_message_id = Long.valueOf(Integer.parseInt(str_message_id));
       for (Map<String, Object> item : all_messagesample) {
         Long long_t_message_id = Long.valueOf((int) item.get("message_id"));
