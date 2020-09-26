@@ -39,10 +39,10 @@
         </tr>
         <td>
           <tr th:each="item: ${messageSample}">
-            <td> <a th:text="[Edit]" th:href="@{|/?message_id=${item.message_id}|}"></td>
+            <td> <a th:id="'message_edit_link_' + ${item.message_id}" th:text="[Edit]" th:href="@{|/?message_id=${item.message_id}|}"></td>
             <td><input type="checkbox" th:id="'message_checkbox_' + ${item.message_id}" name="message_checkbox" th:value="${item.message_id}"></td>
             <td th:text="${item.message_id}"></td>
-            <td th:text="${item.message}"></td>
+            <td th:id="'message_text_' + ${item.message_id}" th:text="${item.message}"></td>
             <td th:text="${item.updated_date}"></td>
             <td th:text="${item.created_date}"></td>
           </tr>

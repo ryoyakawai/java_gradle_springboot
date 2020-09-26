@@ -84,6 +84,7 @@ WORKDIR $WORKING_DIR
 ### BUILD and RUN ###
 COPY [ "build.gradle", "gradle", "gradlew", "gradlew.bat", "settings.gradle", "$WORKING_DIR/app/" ]
 COPY src $WORKING_DIR/app/src/
+COPY config $WORKING_DIR/app/config/
 COPY gradle $WORKING_DIR/app/gradle/
 
 RUN cd $WORKING_DIR/app && gradle --version && java --version

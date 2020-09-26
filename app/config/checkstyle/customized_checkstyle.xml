@@ -16,6 +16,7 @@ Authors: Max Vetrenko, Ruslan Diachenko, Roman Ivanov.
 -->
 
 <module name = "Checker">
+
   <property name="charset" value="UTF-8"/>
 
   <property name="severity" value="error"/>
@@ -251,5 +252,11 @@ Authors: Max Vetrenko, Ruslan Diachenko, Roman Ivanov.
       <property name="exceptionVariableName" value="expected"/>
     </module>
     <module name="CommentsIndentation"/>
+
+    <module name="CyclomaticComplexity">
+      <property name="max" value="10"/>
+    </module>
+
   </module>
+
 </module>
